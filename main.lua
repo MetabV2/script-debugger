@@ -143,9 +143,6 @@ local function ad(v,f)
 		e.BackgroundTransparency = 1
 	end)
 	e.Parent = a
-	
-	local ef = (#scroll:GetChildren())*new.Size.Y.Offset
-	scroll.CanvasSize = UDim2.new(0,0,0,ef)
 
 	return e
 end
@@ -198,7 +195,7 @@ end
 local siz = new.Size
 local function lp(i,v,g)
 	local t = type(v)
-	local n = (t == 'table' and t) or ((t == 'number' or t == 'string') and v) or (t == 'function' and t) or tostring(v)
+	local n = ((t == 'table' or t == 'function') and t) or ((t == 'number' or t == 'string') and v) or tostring(v)
 	local e,l = ad('<b>'..i..'</b>     '..n,true),nil
 	ca[e] = g
 	
@@ -243,7 +240,6 @@ TextBox:GetPropertyChangedSignal('Text'):Connect(function()
     local e,f = pcall(loadstring('return '..r))
     if e and f and ol ~= f then
         ol = f
-        wait(.1)
         
         for i,v in pairs(scroll:GetChildren()) do
             if v:IsA('TextButton') then
@@ -252,5 +248,8 @@ TextBox:GetPropertyChangedSignal('Text'):Connect(function()
         end
         
         ex(f)
+        
+        local ef = (#scroll:GetChildren())*new.Size.Y.Offset
+	    scroll.CanvasSize = UDim2.new(0,0,0,ef)
     end
 end)
