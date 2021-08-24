@@ -249,6 +249,11 @@ TextBox:GetPropertyChangedSignal('Text'):Connect(function()
     if e and f and ol ~= f then
         ol = f
         wait(.1)
+        for i,v in pairs(scroll:GetChildren()) do
+            if v:IsA('TextButton') then
+                v:Remove()
+            end
+        end
         ex(f)
     end
 end)
