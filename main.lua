@@ -1,3 +1,6 @@
+-- please use the original repository, as it still gonna get a lot of updates
+-- https://github.com/loglizzy/script-debugger
+
 local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
 local scroll = Instance.new("ScrollingFrame")
@@ -155,15 +158,6 @@ local function re(e)
 	e.BackgroundTransparency = 0.8
 end
 
-local function nm(f)
-	local e = (getgc and getgc(true)) or {}
-	for i,v in pairs(e) do
-		if v == f then
-			return i
-		end
-	end
-end
-
 local function rt(e,f)
 	for i,v in pairs(a:GetChildren()) do
 		local r = ca[v]
@@ -204,7 +198,7 @@ end
 local siz = new.Size
 local function lp(i,v,g)
 	local t = type(v)
-	local n = (t == 'table' and (nm(v) or t)) or ((t == 'number' or t == 'string') and v) or (t == 'function' and t) or tostring(v)
+	local n = (t == 'table' and t) or ((t == 'number' or t == 'string') and v) or (t == 'function' and t) or tostring(v)
 	local e,l = ad('<b>'..i..'</b>     '..n,true),nil
 	ca[e] = g
 	
@@ -245,15 +239,19 @@ end
 
 local ol
 TextBox:GetPropertyChangedSignal('Text'):Connect(function()
-    local e,f = pcall(loadstring('return '..TextBox.Text))
+    local r = TextBox.Text
+    local e,f = pcall(loadstring('return '..r))
     if e and f and ol ~= f then
         ol = f
         wait(.1)
+        
         for i,v in pairs(scroll:GetChildren()) do
             if v:IsA('TextButton') then
                 v:Remove()
             end
         end
+        
         ex(f)
     end
 end)
+end))
