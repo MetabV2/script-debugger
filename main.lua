@@ -254,4 +254,3 @@ TextBox:GetPropertyChangedSignal('Text'):Connect(function()
         ex(f)
     end
 end)
-end))
