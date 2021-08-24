@@ -140,7 +140,9 @@ local function ad(v,f)
 		e.BackgroundTransparency = 1
 	end)
 	e.Parent = a
-	scroll.CanvasSize = UDim2.new(0,0,0,UIListLayout.AbsoluteContentSize.Y)
+	
+	local ef = (#scroll:GetChildren())*new.Size.Y.Offset
+	scroll.CanvasSize = UDim2.new(0,0,0,ef)
 
 	return e
 end
