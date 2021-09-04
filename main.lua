@@ -198,7 +198,7 @@ end
 local siz = new.Size
 local function lp(i,v,g)
 	local t = type(v)
-	local n = ((t == 'number' or t == 'string') and v) or t
+	local n = ((t == 'number' or t == 'string') and v) or (t=='table' and t) or tostring(v)
 	local e,l = ad('<b>'..i..'</b>     '..n,true),nil
 	ca[e] = g
 	
