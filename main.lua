@@ -143,6 +143,9 @@ local function ad(v,f)
 		e.BackgroundTransparency = 1
 	end)
 	e.Parent = a
+	
+	local ef = (#scroll:GetChildren())*new.Size.Y.Offset
+	scroll.CanvasSize = UDim2.new(0,0,0,ef)
 
 	return e
 end
@@ -184,10 +187,10 @@ local function st(r)
         end
     end
     
-    gt(tbl,r)
     for i,v in pairs(r) do
         tbl[i] = v
     end
+    gt(tbl)
 
     return tbl
 end
@@ -195,7 +198,7 @@ end
 local siz = new.Size
 local function lp(i,v,g)
 	local t = type(v)
-	local n = ((t == 'table' or t == 'function') and t) or ((t == 'number' or t == 'string') and v) or tostring(v)
+	local n = ((t == 'number' or t == 'string') and v) or t
 	local e,l = ad('<b>'..i..'</b>     '..n,true),nil
 	ca[e] = g
 	
@@ -218,7 +221,7 @@ local function lp(i,v,g)
 
 		siz = siz - UDim2.new(0,30,0,0)
 		for i,v in pairs(v) do
-			lp(i,v,e)
+			lp(i,v,e,f)
 		end
 		siz = siz + UDim2.new(0,30,0,0)
 	end
@@ -236,20 +239,15 @@ end
 
 local ol
 TextBox:GetPropertyChangedSignal('Text'):Connect(function()
-    local r = TextBox.Text
-    local e,f = pcall(loadstring('return '..r))
+    local e,f = pcall(loadstring('return '..TextBox.Text))
     if e and f and ol ~= f then
         ol = f
-        
         for i,v in pairs(scroll:GetChildren()) do
-            if v:IsA('TextButton') then
-                v:Remove()
-            end
+            if not v:IsA('TextButton') then continue end
+            v:Remove()
         end
-        
+            
+        wait(.1)
         ex(f)
-        
-        local ef = (#scroll:GetChildren())*new.Size.Y.Offset
-	    scroll.CanvasSize = UDim2.new(0,0,0,ef)
     end
 end)
