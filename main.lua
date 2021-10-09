@@ -229,7 +229,7 @@ local function lp(i,v,g)
 end
 
 local function ex(v)
-    local tbl = st(getsenv(v))
+    local tbl = st((v:IsA('LocalScript')and getsenv(v))or require(v))
     ca = {}
     for i,v in pairs(tbl) do
     	local f = lp(i,v)
