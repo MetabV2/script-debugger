@@ -144,7 +144,7 @@ local function ad(v,f)
 	end)
 	e.Parent = a
 	
-	local ef = (#scroll:GetChildren())*new.Size.Y.Offset
+	local ef = (#scroll:GetChildren()-1)*new.Size.Y.Offset
 	scroll.CanvasSize = UDim2.new(0,0,0,ef)
 
 	return e
@@ -172,16 +172,18 @@ local function rt(e,f)
 end
 
 local function st(r)
-    local tbl = {}
+    local cl,tbl = {},{}
     local function gt(e,f)
-        for i,v in pairs(f or e) do
+        f = f or e
+        for i,v in pairs(f) do
             local t = type(v)
             if t == 'function' then
-                (f or e)[i] = getupvalues(v)
-                gt(getprotos(v),e)
+                f[i] = getupvalues(v)
+                gt(f[i],f[i])
             elseif t == 'table' then
-                gt(v)
-            elseif i ~= 'script' then
+                (f or e)[i] = v
+                gt(v,f[i])
+            else
                 (f or e)[i] = v
             end
         end
@@ -198,7 +200,7 @@ end
 local siz = new.Size
 local function lp(i,v,g)
 	local t = type(v)
-	local n = ((t == 'number' or t == 'string') and v) or (t=='table' and t) or tostring(v)
+	local n = ((t == 'number' or t == 'string') and v) or (type(i)=='number'and 'table') or 'function' or tostring(v)
 	local e,l = ad('<b>'..i..'</b>     '..n,true),nil
 	ca[e] = g
 	
@@ -229,12 +231,14 @@ local function lp(i,v,g)
 end
 
 local function ex(v)
+    print(pcall(function()
     local tbl = st((v:IsA('LocalScript')and getsenv(v))or require(v))
     ca = {}
     for i,v in pairs(tbl) do
     	local f = lp(i,v)
     	if f then f.Visible = true end
     end
+    end))
 end
 
 local ol
